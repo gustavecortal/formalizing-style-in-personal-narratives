@@ -1,0 +1,283 @@
+prompt = """Task: Extract the clauses of each sentence. For each clause, determine whether it is a dependent or an independent clause. Make sure that a subject is always present in a clause.
+
+An English clause is a group of words that contains at least a subject and a predicate. Clauses are fundamental building blocks of sentences. They can be categorized into two main types: dependent clauses and independent clauses.
+
+### Independent Clauses
+
+An independent clause, also known as a main clause, can stand alone as a complete sentence. It expresses a complete thought and has both a subject and a predicate.
+
+**Examples:**
+- "She enjoys reading."
+- "The sun is shining brightly."
+
+### Dependent Clauses
+
+A dependent clause, also known as a subordinate clause, cannot stand alone as a complete sentence. It does not express a complete thought and depends on an independent clause to give it meaning. Dependent clauses also contain a subject and a predicate, but they begin with subordinating conjunctions or relative pronouns.
+
+**Examples:**
+- "Because she enjoys reading"
+- "Although the sun is shining brightly"
+
+A clause always has a predicate. If there is no predicate, then it is not a clause !
+
+### Types of Sentences
+
+Understanding the types of clauses helps in constructing different types of sentences: simple, complex, compound, and compound-complex sentences.
+
+#### Simple Sentences
+
+A simple sentence consists of a single independent clause. It may have a compound subject or verb but still contains only one clause.
+
+**Examples:**
+- "The cat slept."
+- "Tom and Jerry are best friends."
+
+#### Complex Sentences
+
+A complex sentence contains one independent clause and at least one dependent clause. The dependent clause can function as an adjective, adverb, or noun within the sentence.
+
+**Examples:**
+- "When the bell rang, the students left the classroom."
+- "She decided to take a nap because she was tired."
+
+#### Compound Sentences
+
+A compound sentence consists of two or more independent clauses joined by a coordinating conjunction (for, and, nor, but, or, yet, so) or a semicolon.
+
+**Examples:**
+- "I wanted to go for a walk, but it started to rain."
+- "She loves to read; he prefers to watch movies."
+
+#### Compound-Complex Sentences
+
+A compound-complex sentence has at least two independent clauses and at least one dependent clause. This type of sentence combines elements of both compound and complex sentences.
+
+**Examples:**
+- "Although I was tired, I finished my homework, and I went to bed early."
+- "She didn’t see the movie because she was busy, but she heard it was good."
+
+Remember, a clause is a group of words that contains a subject and a predicate. The subject typically performs the action or is described by the predicate. The predicate, which is the core of the clause, must include a verb and may also contain objects, complements, or adverbial phrases that complete its meaning. The verb within the predicate must agree with the subject in number and sometimes tense, and the entire clause must form a coherent and logically complete idea. A clause can function as a part of a larger sentence or stand alone as a complete sentence. If there is no predicate, then it is not a clause.
+
+Task: Extract the clauses of each sentence. For each clause, determine whether it is a dependent or an independent clause. Make sure that a subject is always present in a clause."""
+
+assistant = """Sentence: The enemy is above, in the sky.  
+Clause: The enemy is above, in the sky (Independent)
+
+Sentence: We're not soldiers but school children.  
+Clause: We're not soldiers but school children (Independent)
+
+Sentence: A voice from everywhere begins to warn us, "Things are dropping."  
+Clause: A voice from everywhere begins to warn us, "Things are dropping." (Independent)
+
+Sentence: Seed begin to fall.  
+Clause: Seed begin to fall (Independent)
+
+Sentence: Then I hear the faint echo of the tubes popping.  
+Clause: Then I hear the faint echo of the tubes popping (Independent)
+
+Sentence: There is an underground bunker; most of us run for the school bus.  
+Clause: There is an underground bunker (Independent)  
+Clause: most of us run for the school bus (Independent)
+
+Sentence: The mortars are dropping close by, within twenty yards.  
+Clause: The mortars are dropping close by, within twenty yards (Independent)
+
+Sentence: The fear of realizing death is pacing through my mind.  
+Clause: The fear of realizing death is pacing through my mind (Independent)
+
+Sentence: We are all crowded in, scared of a hit.  
+Clause: We are all crowded in, scared of a hit (Independent)
+
+Sentence: I shield my face with two paperback books.  
+Clause: I shield my face with two paperback books (Independent)
+
+Sentence: All at once there is a sharp explosion.  
+Clause: All at once there is a sharp explosion (Independent)
+
+Sentence: I am hit, though I scream for only a moment.  
+Clause: I am hit (Independent)  
+Clause: though I scream for only a moment (Dependent)
+
+Sentence: It is such a helpless feeling.  
+Clause: It is such a helpless feeling (Independent)
+
+Sentence: The concussion has shattered the teeth in my mouth and I am going into shock.  
+Clause: The concussion has shattered the teeth in my mouth (Independent)  
+Clause: and I am going into shock (Independent)
+
+Sentence: The dream ends here.  
+Clause: The dream ends here (Independent)
+
+Sentence: In daylight, I am with a group of people walking along a road or trail.  
+Clause: In daylight, I am with a group of people walking along a road or trail (Independent)
+
+Sentence: It is as if we are refugees.  
+Clause: It is as if we are refugees (Independent)  
+Clause: as if we are refugees (Dependent)
+
+Sentence: I walk next to a woman who is old and smelly, who has a heart condition.  
+Clause: I walk next to a woman (Independent)  
+Clause: a woman is old and smelly (Dependent)  
+Clause: a woman has a heart condition (Dependent)
+
+Sentence: I do not want to be near her and move on.  
+Clause: I do not want to be near her (Independent)  
+Clause: and I move on (Independent)
+
+Sentence: We finally arrive at our destination.  
+Clause: We finally arrive at our destination (Independent)
+
+Sentence: At a picnic table I sit with a young boy who is looking through a thick book about war.  
+Clause: At a picnic table I sit with a young boy (Independent)  
+Clause: who is looking through a thick book about war (Dependent)
+
+Sentence: He is reading the section about Vietnam.  
+Clause: He is reading the section about Vietnam (Independent)
+
+Sentence: I look at the pictures with him.  
+Clause: I look at the pictures with him (Independent)
+
+Sentence: Several NVA soldiers have dragged two dead GIs into a street and are castrating them.  
+Clause: Several NVA soldiers have dragged two dead GIs into a street (Independent)  
+Clause: and Several NVA soldiers are castrating them (Independent)
+
+Sentence: Then the images become real, and we are caught up in an NVA attack.  
+Clause: then the images become real (Independent)  
+Clause: and we are caught up in an NVA attack (Independent)
+
+Sentence: It is dark and difficult to see and they are overrunning our position.  
+Clause: It is dark and difficult to see (Independent)  
+Clause: and they are overrunning our position (Independent)
+
+Sentence: I hear screaming and bullets and a grenade explodes near me.  
+Clause: I hear screaming and bullets (Independent)  
+Clause: and a grenade explodes near me (Independent)
+
+Sentence: Moments later an NVA comes over the berm and bayonets me.  
+Clause: Moments later an NVA comes over the berm (Independent)  
+Clause: and an NVA bayonets me (Independent)
+
+Sentence: I wake up.  
+Clause: I wake up (Independent)
+
+Sentence: It is the present and I am with Bao Ninh in Vietnam.  
+Clause: It is the present (Independent)  
+Clause: I am with Bao Ninh in Vietnam (Independent)
+
+Sentence: He leads me about, showing me different sites and soldiers.  
+Clause: He leads me about, showing me different sites and soldiers (Independent)
+
+Sentence: There is a certain intimacy, a certain understanding between us all.  
+Clause: There is a certain intimacy, a certain understanding between us all (Independent)
+
+Sentence: We communicate without language.  
+Clause: We communicate without language (Independent)
+
+Sentence: At a rehab center I sit with a Vietnamese veteran who sketches pencil drawings.  
+Clause: At a rehab center I sit with a Vietnamese veteran (Independent)  
+Clause: a Vietnamese veteran sketches pencil drawings (Dependent)
+
+Sentence: When he sharpens the point by pressing it into the blunt stub of his lower arm, I wince and offer help, but he declines.  
+Clause: When he sharpens the point by pressing it into the blunt stub of his lower arm (Dependent)  
+Clause: I wince (Independent)  
+Clause: and I offer help (Independent)  
+Clause: but he declines (Independent)
+
+Sentence: He is proud and self-sufficient and this is his way of doing things.  
+Clause: He is proud and self-sufficient (Independent)  
+Clause: and this is his way of doing things (Independent)
+
+Sentence: In another room I see the drawings of school children.  
+Clause: In another room I see the drawings of school children (Independent)
+
+Sentence: They are colorful, lively, happy.  
+Clause: They are colorful, lively, happy (Independent)
+
+Sentence: There is no sense of war.  
+Clause: There is no sense of war (Independent)
+
+Sentence: As the storm raged outside, the old house creaked and groaned, its windows rattling with every gust of wind.  
+Clause: As the storm raged outside (Dependent)  
+Clause: the old house creaked and groaned (Independent)  
+Clause: its windows rattling with every gust of wind (Independent)
+
+Sentence: The children laughed and played in the snow, building a snowman with a carrot nose and a scarf.  
+Clause: The children laughed and played in the snow, building a snowman with a carrot nose and a scarf (Independent)
+
+Sentence: Before the meeting started, John reviewed his notes, made a few final adjustments, and prepared his presentation.  
+Clause: Before the meeting started (Dependent)  
+Clause: John reviewed his notes (Independent)  
+Clause: John made a few final adjustments (Independent)  
+Clause: and John prepared his presentation (Independent)
+
+Sentence: She didn't hear the alarm because she was in a deep sleep.  
+Clause: She didn't hear the alarm (Independent)  
+Clause: because she was in a deep sleep (Dependent)
+
+Sentence: The sun peeked through the clouds, warming the earth below.  
+Clause: The sun peeked through the clouds, warming the earth below (Independent)
+
+Sentence: While they were waiting for the bus, they discussed their weekend plans and shared stories from the previous day.  
+Clause: While they were waiting for the bus (Dependent)  
+Clause: they discussed their weekend plans (Independent)  
+Clause: and they shared stories from the previous day (Independent)
+
+Sentence: Since the restaurant was crowded, they decided to order takeout instead.  
+Clause: Since the restaurant was crowded (Dependent)  
+Clause: they decided to order takeout instead (Independent)
+
+Sentence: The cat watched the birds from the window, its tail twitching with excitement.  
+Clause: The cat watched the birds from the window, its tail twitching with excitement (Independent)
+
+Sentence: When the sun set, the sky turned a brilliant shade of orange, and the temperature began to drop.  
+Clause: When the sun set (Dependent)  
+Clause: the sky turned a brilliant shade of orange (Independent)  
+Clause: and the temperature began to drop (Independent)
+
+Sentence: After she finished her workout, she felt refreshed and energized, ready to tackle the rest of her day.  
+Clause: After she finished her workout (Dependent)  
+Clause: she felt refreshed and energized, ready to tackle the rest of her day (Independent)
+
+Sentence: The project was challenging, but the team completed it on time, much to the client's satisfaction.  
+Clause: The project was challenging (Independent)  
+Clause: but the team completed it on time, much to the client's satisfaction (Independent)
+
+Sentence: He bought a new car because his old one kept breaking down.  
+Clause: He bought a new car (Independent)  
+Clause: because his old one kept breaking down (Dependent)
+
+Sentence: While the music played softly in the background, she sipped her tea and gazed out the window at the falling rain.  
+Clause: While the music played softly in the background (Dependent)  
+Clause: she sipped her tea (Independent)  
+Clause: and she gazed out the window at the falling rain (Independent)
+
+Sentence: The dog barked loudly, and the mailman quickly retreated.  
+Clause: The dog barked loudly (Independent)  
+Clause: and the mailman quickly retreated (Independent)
+
+Sentence: Even though it was late, they stayed up talking until the early hours of the morning.  
+Clause: Even though it was late (Dependent)  
+Clause: they stayed up talking until the early hours of the morning (Independent)
+
+Sentence: The coffee was too hot to drink, so she set it aside to cool.  
+Clause: The coffee was too hot to drink (Independent)  
+Clause: so she set it aside to cool (Independent)
+
+Sentence: He quickly jotted down the instructions before he forgot them.  
+Clause: He quickly jotted down the instructions (Independent)  
+Clause: before he forgot them (Dependent)
+
+Sentence: Although the road was bumpy, the view from the top of the hill was worth the drive.  
+Clause: Although the road was bumpy (Dependent)  
+Clause: the view from the top of the hill was worth the drive (Independent)
+
+Sentence: They went hiking, and they saw a variety of wildlife along the trail.  
+Clause: They went hiking (Independent)  
+Clause: and they saw a variety of wildlife along the trail (Independent)
+
+Sentence: When the phone rang, she hesitated, then answered it with a trembling hand.  
+Clause: When the phone rang (Dependent)  
+Clause: she hesitated (Independent)  
+Clause: then she answered it with a trembling hand (Independent)
+
+Sentence: """

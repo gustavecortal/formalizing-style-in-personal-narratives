@@ -1,0 +1,658 @@
+prompt = """Task: Based on the annotation guideline, classify each clause of a sentence according to processes, participants and circumstances. Structure your answer in JSON.
+
+Annotation guideline: A clause is a group of words that contains a subject and a finite verb that have a relationship. In Systemic Functional Linguistics (SFL), a clause consists of a process (action, event or state) and one or more participants in that process. To this may be added various circumstances. Processes are the happenings or states of affairs represented in a clause. They are realised by verb phrases (e.g. went, started crying, will be singing, drank). Participants are those elements which denote who or what is directly involved in the process. They are typically realised by noun phrases (e.g. the man, Margaret, my left foot, an interesting book). Circumstances contribute additional, and frequently optional, information regarding the who, when, where, how, for how long, and so on, of the process. They are typically realised by adverb phrases and prepositional phrases (e.g. last Saturday, very quickly, on my pillow, before the meeting). The relationship between a process, its participants and circumstances is known as "transitivity", and this constitutes a major part of the ideational metafunction of SFL.
+
+Material processes are actions and events which take place in the physical world. Each of the process types is associated with one, two or occasionally three participants. Material processes typically have a participant of an agentive type (Actor). This is the participant which carries out the process or causes the process to take place. Where material process verbs have two participants (traditionally transitive verbs), the second participant may be an entity which is in some way altered or modified by the process. The modification can be as simple as a change of place or position. We call this participant the "affected": [ He | Actor ][ takes | Material ][ the valuable ]. Sometimes the second participant is not modified by the process but is actually created by the process. We call participants of this type a "result": [ Members of my cult | Actor ][ have made | Material ][ 1500 euros | Result ]. A range is a participant, that is neither modified nor created by the process: [Paul | Actor][visited | Material][the shelter | Range]. Sometimes, material processes have a third participant. This is the participant to whom the process is directed, like the person to whom one gives a present. We call this participant the "recipient": [ I | Actor ][ give | Material ][ her | Recipient ][ a chance | Range ]. Material processes expressed by a passive verb usually have the affected in subject position: [ The original | Affected][ was destroyed | Material, passive][ by the Scots | Actor ]. 
+
+Mental processes are processes that take place in a cerebral environment, that is, in the mind. They are of three types: cognitive (processes of thinking), perception (processes of perceiving), and affective (processes of liking and disliking). However, these three types all have the same sort of participants. Typically, there are two. First, there is the site of the mental process and the content of the mental experience. The site of the process is called the "senser", and the content of what it senses is called the "phenomenon". The following are examples of cognitive, perception and affective mental processes respectively: [We | Senser][believe | Mental: Cognitive][young women are the leaders of change | Phenomenon], [See | Mental: Perceptive][world-class exhibitions | Phenomenon], [He | Senser][also disliked | Mental: Affective][the increasingly unrealistic elements in Gilbert’s writing | Phenomenon]. 
+
+Relational processes link two items, or an item and one of its features. Here again there are three types, but in this case these differences imply different types of participant. The first type is attributive: this links an item (Carrier) and one of its features (Attribute): [ The interior of the Hall | Carrier ][ was | Relational: Attributive ][ very plain | Attribute ]. The second type of relational process is the identifying type. This type of process links two expressions which refer to the same entity. In this case, the item being identified is called the "sign" and the expression used to identify it is the "value": [ John | Sign ][ is | Relational: Identifying ][ Honorary Curator of Rare Books for Shakespeare’s Globe | Value ]. The third type of relational process is possessive. This again has two participants which we call the "possessor" and the "possessed". [ Hadrian’s Wall | Possessor ][ has | Relational: Possessive][ something for everyone | Possessed ]. A relational process is usually a state, but it can also be a change of state: [ One | Carrier ][ becomes | Relational: Attributive ][ a Christian | Attribute ]. 
+
+Verbal processes are processes of communication. These typically have two participants, the person who is communicating, called the "sayer", and the content of his message, called the "verbiage": [ British prime minister David Cameron | Sayer ][ said | Verbal ][ "the corrupt, criminals and money launderers" | Verbiage ]. The person to whom the message is addressed in verbal process can also be expressed. If this is done in non-prepositional form, this constitutes another participant and can be analysed in the same way as the entity towards whom the process is directed in material process, that is as a recipient.
+
+Existential processes simply state the existence of something. The most common form this takes (though it is not the only possibility) occurs in clauses beginning There is or There are. These clauses have only one participant which is the entity that is said to exist, and it is called the "existent": [ There | Existantial ][ was | Exist ] [ a swimming pool | Existent ]. 
+
+In summary, clauses are made up of a process, its participants and, if there are any, the circumstances. There are five types of process: (1) Material processes express physical actions and events. (2) Mental processes express events of a cerebral nature. (3) Relational processes express a relationship between two entities or between an entity and its characteristics. (4) Verbal processes are processes of communication. (5) Existential processes express the existence of an entity. The participants which can appear in a material process are actor, affected, result, range, and recipient. Mental processes can be cognitive, perception or affective. The participants which occur in a mental process are senser and phenomenon. Relational processes can be attributive, identifying or possessive. The participants in an attributive relational process are carrier and attribute. The participants in an identifying relational process are sign and token. The participants in a possessive relational process are possessor and possessed. The participants in a verbal process are sayer and verbiage; a recipient can also occur in a verbal process. Existential processes have a single participant known as the existent. Circumstantial adjuncts are elements within a sentence that provide additional information about the circumstances of the action, event, or state described by the verb. These adjuncts typically answer questions such as when (time), where (place), how (manner), why (cause), with whom (accompagniment), about what (matter) and in what role (role) something occurs.
+
+Task: Based on the annotation guideline, classify each clause of a sentence according to processes, participants and circumstances. Also classify the modality, voice of the clause and the tense and aspect of the main verb phrase. Structure your answer in JSON and follow this schema:
+{
+  "Modality": {
+    "type": "string",
+    "description": "Indicates the modality of the clause.",
+    "enum": ["none", "necessity", "possibility", "obligation", "permission", "ability"]
+  },
+  "Voice": {
+    "type": "string",
+    "description": "Indicates the voice of the clause.",
+    "enum": ["active", "passive"]
+  },
+  "Main_verb_phrase": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The main verb phrase of the clause."
+      },
+      "tense": {
+        "type": "string",
+        "description": "The tense of the main verb phrase.",
+        "enum": ["present", "past", "future"]
+      },
+      "aspect": {
+        "type": "string",
+        "description": "The aspect of the main verb phrase.",
+        "enum": ["simple", "continuous", "perfect", "perfect continous"]
+      },
+      "process": {
+        "type": "string",
+        "description": "The type of process represented by the verb.",
+        "enum": ["material", "mental cognitive", "mental perceptive", "mental affective", "relational attributive", "relational identifying", "relational possessive", "verbal", "existential"]
+      }
+    },
+    "required": ["text", "tense", "aspect", "process"]
+  },
+  "Participants": {
+    "type": "object",
+    "properties": {
+      "subject": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text of the subject."
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the subject in the process.",
+            "enum": ["actor", "senser", "carrier", "possessor", "sayer", "existent", "sign"]
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of subject.",
+            "enum": ["concrete", "abstract"]
+          }
+        },
+        "required": ["text", "role", "type"]
+      },
+      "object": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text of the object."
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the object in the process.",
+            "enum": ["affected", "phenomenon", "attribute", "possessed", "verbiage", "recipient", "value", "range"]
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of object.",
+            "enum": ["concrete", "abstract"]
+          }
+        },
+        "required": ["text", "role", "type"]
+      }
+    }
+  },
+  "Circumstances": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text representing the circumstances."
+      },
+      "role": {
+        "type": "string",
+        "description": "The role of the circumstances in the process.",
+        "enum": ["time", "place", "manner", "cause", "role", "matter", "accompaniment"]
+      }
+    },
+    "required": ["text", "role"]
+  }
+}
+"""
+
+assistant = """Sentence: Several NVA soldiers have dragged two dead GIs into a street
+Clause: Several NVA soldiers have dragged two dead GIs into a street
+JSON:
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "have dragged",
+    "tense": "present",
+    "aspect": "perfect",
+    "process": "material"
+  },
+  "Participants": {
+    "subject": {
+      "text": "Several NVA soldiers",
+      "role": "actor",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "two dead GIs",
+      "role": "affected",
+      "type": "concrete"
+    }
+  },
+  "Circumstances": {
+    "text": "into a street",
+    "role": "place"
+  }
+}
+
+Sentence: I think of the dull pain that begins to throb
+Clause: I think of the dull pain that begins to throb
+JSON: 
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "think of",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "mental cognitive"
+  },
+  "Participants": {
+    "subject": {
+      "text": "I",
+      "role": "senser",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "the dull pain",
+      "role": "phenomenon",
+      "type": "concrete"
+    }
+  },
+  "Circumstances": {
+    "text": "that begins to throb",
+    "role": "manner"
+  }
+}
+
+Sentence: The fear of realizing death is pacing through my mind
+Clause: The fear of realizing death is pacing through my mind
+JSON: 
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "is pacing",
+    "tense": "present",
+    "aspect": "continuous",
+    "process": "material"
+  },
+  "Participants": {
+    "subject": {
+      "text": "The fear of realizing death",
+      "role": "actor",
+      "type": "concrete"
+    },
+    "object": {}
+  },
+  "Circumstances": {
+    "text": "through my mind",
+    "role": "place"
+  }
+}
+
+Sentence: In the dream I am a soldier flying a small balsa wood plane by telepathy
+Clause: In the dream I am a soldier flying a small balsa wood plane by telepathy
+JSON: 
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "am",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "relational attributive"
+  },
+  "Participants": {
+    "subject": {
+      "text": "I",
+      "role": "carrier",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "a soldier",
+      "role": "attribute",
+      "type": "concrete"
+    }
+  },
+  "Circumstances": [
+    {
+      "text": "In the dream",
+      "role": "place"
+    },
+    {
+      "text": "flying a small balsa wood plane",
+      "role": "manner"
+    },
+    {
+      "text": "by telepathy",
+      "role": "manner"
+    }
+  ]
+}
+
+Sentence: all of a sudden mortars begin to drop, close and very loud, and profusely
+Clause: all of a sudden mortars begin to drop, close and very loud, and profusely
+JSON:
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "begin to drop",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "material"
+  },
+  "Participants": {
+    "subject": {
+      "text": "mortars",
+      "role": "actor",
+      "type": "concrete"
+    },
+    "object": {}
+  },
+  "Circumstances": [
+    {
+      "text": "all of a sudden",
+      "role": "time"
+    },
+    {
+      "text": "close and very loud",
+      "role": "manner"
+    },
+    {
+      "text": "profusely",
+      "role": "manner"
+    }
+  ]
+}
+
+Sentence: The next day, after a very difficult march, all the men are overjoyed to be out of Cambodia
+Clause: The next day, after a very difficult march, all the men are overjoyed to be out of Cambodia
+JSON:
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "are overjoyed",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "mental affective"
+  },
+  "Participants": {
+    "subject": {
+      "text": "all the men",
+      "role": "senser",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "to be out of Cambodia",
+      "role": "phenomenon",
+      "type": "abstract"
+    }
+  },
+  "Circumstances": [
+    {
+      "text": "The next day",
+      "role": "time"
+    },
+    {
+      "text": "after a very difficult march",
+      "role": "time"
+    }
+  ]
+}
+
+Sentence: This afternoon, Chloé and I are going to the cinema by car
+Clause: This afternoon, Chloé and I are going to the cinema by car
+JSON:
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "are going",
+    "tense": "present",
+    "aspect": "continuous",
+    "process": "material"
+  },
+  "Participants": {
+    "subject": {
+      "text": "Chloé and I",
+      "role": "actor",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "to the cinema",
+      "role": "range",
+      "type": "concrete"
+    }
+  },
+  "Circumstances": [
+    {
+      "text": "This afternoon",
+      "role": "time"
+    },
+    {
+      "text": "by car",
+      "role": "manner"
+    }
+  ]
+}
+
+Sentence: With my friends, we are being overrun by sappers
+Clause: With my friends, we are being overrun by sappers
+JSON:
+{
+  "Modality": "none",
+  "Voice": "passive",
+  "Main_verb_phrase": {
+    "text": "are being overrun",
+    "tense": "present",
+    "aspect": "continuous",
+    "process": "material"
+  },
+  "Participants": {
+    "subject": {
+      "text": "we",
+      "role": "affected",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "by sappers",
+      "role": "actor",
+      "type": "concrete"
+    }
+  },
+  "Circumstances": {
+    "text": "With my friends",
+    "role": "accompaniment"
+  }
+}
+
+Sentence: Accelerationism is a range of revolutionary and reactionary ideas in left-wing and right-wing ideologies that call for the drastic intensification of capitalist growth, technological change, infrastructure sabotage and other processes of social change
+Clause: Accelerationism is a range of revolutionary and reactionary ideas in left-wing and right-wing ideologies
+JSON: 
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "is",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "relational attributive"
+  },
+  "Participants": {
+    "subject": {
+      "text": "Accelerationism",
+      "role": "carrier",
+      "type": "abstract"
+    },
+    "object": {
+      "text": "a range of revolutionary and reactionary ideas in left-wing and right-wing ideologies",
+      "role": "attribute",
+      "type": "abstract"
+    }
+  }
+}
+
+Sentence: Accelerationism is a range of revolutionary and reactionary ideas in left-wing and right-wing ideologies that call for the drastic intensification of capitalist growth, technological change, infrastructure sabotage and other processes of social change
+Clause: that call for the drastic intensification of capitalist growth, technological change, infrastructure sabotage and other processes of social change
+JSON: 
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "call for",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "verbal"
+  },
+  "Participants": {
+    "subject": {
+      "text": "Accelerationism",
+      "role": "sayer",
+      "type": "abstract"
+    },
+    "object": {
+      "text": "the drastic intensification of capitalist growth, technological change, infrastructure sabotage and other processes of social change",
+      "role": "verbiage",
+      "type": "abstract"
+    }
+  }
+}
+
+Sentence: There is no sense of war
+Clause: There is no sense of war
+JSON: 
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "is",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "existential"
+  },
+  "Participants": {
+    "subject": {
+      "text": "no sense of war",
+      "role": "existent",
+      "type": "abstract"
+    }
+  }
+}
+
+Sentence: The doors might have been opened by Huxley using a hammer
+Clause: The doors might have been opened by Huxley using a hammer
+JSON: 
+{
+  "Modality": "possibility",
+  "Voice": "passive",
+  "Main_verb_phrase": {
+    "text": "may have been opened",
+    "tense": "past",
+    "aspect": "perfect",
+    "process": "material"
+  },
+  "Participants": {
+    "subject": {
+      "text": "The doors",
+      "role": "affected",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "Huxley",
+      "role": "actor",
+      "type": "concrete"
+    }
+  },
+  "Circumstances": {
+    "text": "using a hammer",
+    "role": "manner"
+  }
+}
+
+Sentence: Unfortunately, as students, Chloé and I are still frustrated about the project
+Clause: Unfortunately, as students, Chloé and I are still frustrated about the project
+JSON:
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "are",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "relational attributive"
+  },
+  "Participants": {
+    "subject": {
+      "text": "Chloé and I",
+      "role": "carrier",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "frustrated",
+      "role": "attribute",
+      "type": "concrete"
+    }
+  },
+  "Circumstances": [
+    {
+      "text": "as students",
+      "role": "role"
+    },
+    {
+      "text": "about the project",
+      "role": "matter"
+    }
+  ]
+}
+
+Sentence: I really didn't want to leave the house
+Clause: I really didn't want to leave the house
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "didn't want",
+    "tense": "past",
+    "aspect": "simple",
+    "process": "mental affective"
+  },
+  "Participants": {
+    "subject": {
+      "text": "I",
+      "role": "senser",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "to leave the house",
+      "role": "phenomenon",
+      "type": "concrete"
+    }
+  },
+  "Circumstances": {
+    "text": "really",
+    "role": "manner"
+  }
+}
+
+Sentence: I give her a chance...
+Clause: I give her a chance...
+JSON:
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "give",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "material"
+  },
+  "Participants": {
+    "subject": {
+      "text": "I",
+      "role": "actor",
+      "type": "concrete"
+    },
+    "object": [
+      {
+        "text": "her",
+        "role": "recipient",
+        "type": "concrete"
+      },
+      {
+        "text": "a chance",
+        "role": "range",
+        "type": "abstract"
+      }
+    ]
+  }
+}
+
+Sentence: Yesterday, in the pool, she said to him: "I can swim!" with excitement
+Clause: Yesterday, in the pool, she said to him: "I can swim!" with excitement
+JSON:
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "said",
+    "tense": "past",
+    "aspect": "simple",
+    "process": "verbal"
+  },
+  "Participants": {
+    "subject": {
+      "text": "She",
+      "role": "sayer",
+      "realization": "pronoun",
+      "type": "concrete"
+    },
+    "object": [
+      {
+        "text": "to him",
+        "role": "recipient",
+        "type": "concrete"
+      },
+      {
+        "text": "I can swim!",
+        "role": "verbiage",
+        "type": "abstract"
+      }
+    ]
+  },
+  "Circumstances": [
+    {
+      "text": "Yesterday",
+      "role": "time"
+    },
+    {
+      "text": "in the pool",
+      "role": "place"
+    },
+    {
+      "text": "with excitement",
+      "role": "manner"
+    }
+  ]
+}
+
+Sentence: I'm super excited by this new feature!
+Clause: I'm super excited by this new feature!
+JSON:
+{
+  "Modality": "none",
+  "Voice": "active",
+  "Main_verb_phrase": {
+    "text": "am excited",
+    "tense": "present",
+    "aspect": "simple",
+    "process": "relational attributive"
+  },
+  "Participants": {
+    "subject": {
+      "text": "I",
+      "role": "carrier",
+      "type": "concrete"
+    },
+    "object": {
+      "text": "excited",
+      "role": "attribute",
+      "type": "abstract"
+    }
+  },
+  "Circumstances": {
+    "text": "by this new feature",
+    "role": "cause"
+  }
+}"""
